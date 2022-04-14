@@ -7,12 +7,14 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
 import ListPage from "./pages/ListPage";
 import CharacterPage from "./pages/CharacterPage";
+import Navbar from "./components/Navbar";
 
 function App() {
     return (
         <Provider store={store}>
             <HashRouter>
                 <ThemeProvider theme={theme}>
+                    <Navbar />
                     <Routes>
                         <Route path="/character" element={<CharacterPage />} />
                         <Route path="/" element={<ListPage />} />
