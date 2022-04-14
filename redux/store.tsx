@@ -5,11 +5,12 @@ import appReducer from "./slices/app";
 
 export const store = configureStore({
     reducer: {
-        app: appReducer
+        app: appReducer,
+        [rickMortyApi.reducerPath]: rickMortyApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         rickMortyApi.middleware
-    ),
+    )
 });
 
 setupListeners(store.dispatch);
