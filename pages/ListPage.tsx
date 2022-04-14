@@ -1,5 +1,6 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useGetCharactersQuery } from "../api/rickMorty";
 
 const ListContainer = styled.div`
     height: 100%;
@@ -7,6 +8,19 @@ const ListContainer = styled.div`
 `;
 
 const ListPage = memo(() => {
+    const [page, setPage] = useState(1);
+
+    const {
+        data: charactersData,
+        isSuccess: charactersIsSuccess,
+    } = useGetCharactersQuery({ page });
+
+    useEffect(() => {
+        if (charactersIsSuccess) {
+            setPage(oldPage => oldPage++);
+        }
+    }, [charactersIsSuccess])
+
     return (
         <ListContainer>
             <p>List</p>
