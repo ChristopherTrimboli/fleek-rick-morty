@@ -1,11 +1,12 @@
 import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useGetCharactersQuery } from "../api/rickMorty";
-import CharacterCard from "../components/CharacterCard";
+import { useGetCharactersQuery } from "../../api/rickMorty";
+import CharacterCard from "../../components/CharacterCard";
 
 const ListContainer = styled.div`
-    height: 100%;
+    height: calc(100% - 121px); // minus nav and padding heights
     width: 100%;
+    overflow-x: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -32,6 +33,7 @@ const ListPage = memo(() => {
                 charactersData?.results?.map((character, index) =>
                     <CharacterCard
                         key={index}
+                        characterId={character.id}
                         imageUrl={character.image}
                         name={character.name}
                         species={character.species}

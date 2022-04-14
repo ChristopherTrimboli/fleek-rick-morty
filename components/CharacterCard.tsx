@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const CardContainer = styled.div`
@@ -18,24 +19,27 @@ const Info = styled.p`
 `;
 
 const DetailsButton = styled.button`
-
+    width: 100%;
 `;
 
 interface CharacterCardProps {
+    characterId: number;
     imageUrl: string;
     name: string;
     species: string;
     status: string;
 }
 
-const CharacterCard = memo(({ imageUrl, name, species, status }: CharacterCardProps) => {
+const CharacterCard = memo(({ characterId, imageUrl, name, species, status }: CharacterCardProps) => {
     return (
         <CardContainer>
             <Image src={imageUrl} />
             <Info>{name}</Info>
             <Info>{species}</Info>
             <Info>{status}</Info>
-            <DetailsButton>Details</DetailsButton>
+            <Link to={`/character/${characterId}`}>
+                <DetailsButton>Details</DetailsButton>
+            </Link> 
         </CardContainer>
     );
 });

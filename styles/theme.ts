@@ -1,4 +1,5 @@
 import { DefaultTheme } from "styled-components";
+import "./fonts.css";
 
 export const theme: DefaultTheme = {
     breakpoints: {

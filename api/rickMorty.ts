@@ -37,7 +37,13 @@ export const rickMortyApi = createApi({
                 method: "GET"
             })
         }),
+        getCharacter: builder.query<{ info: Info, results: Character }, { characterId: number }>({
+            query: ({ characterId }) => ({
+                url: `character/${characterId}`,
+                method: "GET"
+            })
+        }),
     })
 });
 
-export const { useGetCharactersQuery } = rickMortyApi;
+export const { useGetCharactersQuery, useGetCharacterQuery } = rickMortyApi;

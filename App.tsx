@@ -5,8 +5,8 @@ import { Provider } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
-import ListPage from "./pages/ListPage";
-import CharacterPage from "./pages/CharacterPage";
+import ListPage from "./pages/list/ListPage";
+import CharacterPage from "./pages/character/CharacterPage";
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
                 <ThemeProvider theme={theme}>
                     <Navbar />
                     <Routes>
-                        <Route path="/character" element={<CharacterPage />} />
+                        <Route path="/character/:characterId" element={<CharacterPage />} />
                         <Route path="/" element={<ListPage />} />
                     </Routes>
                 </ThemeProvider>

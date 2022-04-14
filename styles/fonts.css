@@ -1,0 +1,4 @@
+@font-face {
+    font-family: "Schwifty";
+    src: local("Schwifty"), url(./schwifty.ttf) format("truetype");
+}
