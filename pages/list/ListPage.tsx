@@ -11,6 +11,7 @@ const ListContainer = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    font-family: Roboto-Mono, Open Sans;
 `;
 
 const ListPage = memo(() => {

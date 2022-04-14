@@ -2,3 +2,8 @@
     font-family: "Schwifty";
     src: local("Schwifty"), url(./schwifty.ttf) format("truetype");
 }
+
+@font-face {
+    font-family: "Roboto-Mono";
+    src: local("Roboto-Mono"), url(./roboto-mono.ttf) format("truetype");
+}

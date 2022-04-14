@@ -21,11 +21,12 @@ const CharacterImage = styled.img`
 const InfoContainer = styled.div`
     height: 100%;
     width: 100%;
-    font-family: Schwifty, Open Sans;
+    font-family: Roboto-Mono, Open Sans;
+    padding: 0 20px;
 `;
 
 const InfoText = styled.p`
-    padding: 50px;
+    font-size: 25px;
 `;
 
 const CharacterPage = memo(() => {
@@ -41,7 +42,14 @@ const CharacterPage = memo(() => {
             <Grid>
                 <CharacterImage src={characterData?.image} />
                 <InfoContainer>
-                    <InfoText>Hello World</InfoText>
+                    <InfoText>{characterData?.id}</InfoText>
+                    <InfoText>{characterData?.name}</InfoText>
+                    <InfoText>{characterData?.status}</InfoText>
+                    <InfoText>{characterData?.species}</InfoText>
+                    <InfoText>{characterData?.type}</InfoText>
+                    <InfoText>{characterData?.gender}</InfoText>
+                    <InfoText>{characterData?.origin?.name}</InfoText>
+                    <InfoText>{new Date(characterData?.created).toLocaleString()}</InfoText>
                 </InfoContainer>
             </Grid>
         </CharacterContainer>
