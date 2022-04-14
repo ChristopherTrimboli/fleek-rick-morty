@@ -1,0 +1,46 @@
+{
+    "name": "fleek-rick-morty",
+    "version": "0.0.1",
+    "description": "Fleek's Rick and Morty Frontend Test",
+    "main": "App.tsx",
+    "scripts": {
+        "dev": "webpack serve --config webpack.config.dev.js",
+        "build": "webpack --config webpack.config.prod.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ChristopherTrimboli/fleek-rick-morty.git"
+    },
+    "author": "ChristopherTrimboli.eth",
+    "bugs": {
+        "url": "https://github.com/ChristopherTrimboli/fleek-rick-morty/issues"
+    },
+    "homepage": "https://github.com/ChristopherTrimboli/fleek-rick-morty",
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.8.1",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-redux": "^7.2.8",
+        "react-router-dom": "^6.3.0",
+        "styled-components": "^5.3.5"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.8",
+        "@babel/plugin-transform-runtime": "^7.17.0",
+        "@babel/preset-env": "^7.16.11",
+        "@babel/preset-react": "^7.16.7",
+        "@babel/preset-typescript": "^7.16.7",
+        "@types/react": "^18.0.1",
+        "@types/react-dom": "^18.0.0",
+        "@types/react-router-dom": "^5.3.3",
+        "@types/styled-components": "^5.1.24",
+        "babel-loader": "^8.2.4",
+        "css-loader": "^6.7.1",
+        "html-webpack-plugin": "^5.5.0",
+        "style-loader": "^3.3.1",
+        "typescript": "^4.6.3",
+        "webpack": "^5.71.0",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.8.0"
+    }
+}
