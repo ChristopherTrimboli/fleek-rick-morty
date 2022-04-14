@@ -2,6 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Character, useGetCharactersQuery } from "../../api/rickMorty";
 import CharacterCard from "../../components/CharacterCard";
+import PaginationBar from "../../components/PaginationBar";
 import SearchInput from "../../components/SearchInput";
 
 const Grid = styled.div`
@@ -28,6 +29,13 @@ const FiltersContainer = styled.div`
 const ListContainer = styled.div`
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+`;
+
+const CharacterCards = styled.div`
+    height: 100%;
+    width: 100%;
     overflow-x: auto;
     display: flex;
     flex-direction: row;
@@ -47,15 +55,9 @@ const ListPage = memo(() => {
         isSuccess: charactersIsSuccess,
     } = useGetCharactersQuery({ page });
 
-    useEffect(() => {
-        if (charactersIsSuccess) {
-            setPage(oldPage => oldPage++);
-        }
-    }, [charactersIsSuccess])
-
     const handleSearch = useCallback((query: string) => {
         setSearchQuery(query);
-    }, [])
+    }, [setSearchQuery])
 
     useEffect(() => {
         let newCharacters = charactersData?.results || [];
@@ -63,7 +65,7 @@ const ListPage = memo(() => {
             newCharacters = newCharacters.filter(character => character.name.toLowerCase().includes(searchQuery.toLowerCase()));
         }
         setFilteredCharacters(newCharacters);
-    }, [searchQuery, charactersData?.results])
+    }, [searchQuery, charactersData?.results, setFilteredCharacters])
 
     return (
         <Grid>
@@ -71,18 +73,25 @@ const ListPage = memo(() => {
                 <SearchInput onSearch={handleSearch} />
             </FiltersContainer>
             <ListContainer>
-                {
-                    filteredCharacters.map((character, index) =>
-                        <CharacterCard
-                            key={index}
-                            characterId={character.id}
-                            imageUrl={character.image}
-                            name={character.name}
-                            species={character.species}
-                            status={character.status}
-                        />
-                    )
-                }
+                <CharacterCards>
+                    {
+                        filteredCharacters.map((character, index) =>
+                            <CharacterCard
+                                key={index}
+                                characterId={character.id}
+                                imageUrl={character.image}
+                                name={character.name}
+                                species={character.species}
+                                status={character.status}
+                            />
+                        )
+                    }
+                </CharacterCards>
+                <PaginationBar
+                    currentPage={page}
+                    maxPages={charactersData?.info?.pages || 10}
+                    onPageChange={(newPage) => setPage(newPage)}
+                />
             </ListContainer>
         </Grid>
     );

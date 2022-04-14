@@ -33,7 +33,7 @@ export const rickMortyApi = createApi({
     endpoints: (builder) => ({
         getCharacters: builder.query<{ info: Info, results: Character[] }, { page: number }>({
             query: ({ page }) => ({
-                url: `character/?page/${page || 1}`,
+                url: `character/?page=${page || 1}`,
                 method: "GET"
             })
         }),

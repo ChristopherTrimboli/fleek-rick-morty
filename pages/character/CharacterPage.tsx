@@ -49,7 +49,7 @@ const CharacterPage = memo(() => {
                     <InfoText>{characterData?.type}</InfoText>
                     <InfoText>{characterData?.gender}</InfoText>
                     <InfoText>{characterData?.origin?.name}</InfoText>
-                    <InfoText>{new Date(characterData?.created).toLocaleString()}</InfoText>
+                    <InfoText>{characterData?.created && new Date(characterData.created).toLocaleString()}</InfoText>
                 </InfoContainer>
             </Grid>
         </CharacterContainer>
