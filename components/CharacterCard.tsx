@@ -5,8 +5,9 @@ import styled from "styled-components";
 const CardContainer = styled.div`
     min-height: 400px;
     max-width: 500px;
-    border: 1px solid grey;
+    border: 1px solid #42B4CA;
     padding: 10px;
+    margin: 8px;
 `;
 
 const Image = styled.img`
@@ -20,6 +21,16 @@ const Info = styled.p`
 
 const DetailsButton = styled.button`
     width: 100%;
+    background-color: #BFDE42;
+    padding: 10px 20px;
+    font-family: Roboto-Mono, Open Sans;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+
+    :hover {
+        background-color: #d2f73f;
+    }
 `;
 
 interface CharacterCardProps {
@@ -39,7 +50,7 @@ const CharacterCard = memo(({ characterId, imageUrl, name, species, status }: Ch
             <Info>{status}</Info>
             <Link to={`/character/${characterId}`}>
                 <DetailsButton>Details</DetailsButton>
-            </Link> 
+            </Link>
         </CardContainer>
     );
 });
