@@ -13,17 +13,30 @@ const CharacterContainer = styled.div`
 
 const Grid = styled.div`
     display: flex;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        flex-direction: column;
+    }
 `;
 
 const CharacterImage = styled.img`
     height: 40vh;
     width: auto;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        max-height: 400px;
+        max-width: 400px;
+    }
 `;
 
 const InfoContainer = styled.div`
     height: 100%;
     width: 100%;
     padding: 0 20px;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        padding: 0px;
+    }
 `;
 
 const InfoText = styled.p`
