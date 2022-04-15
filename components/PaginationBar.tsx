@@ -77,7 +77,6 @@ const PaginationBar = memo(({ currentPage, maxPages, onPageChange }: PaginationB
     useEffect(() => {
         if (currentPage >= pageRange[1]) {
             const attemptedMax = currentPage + pageAmount;
-            console.log(maxPages)
             const newMax = attemptedMax <= maxPages ? attemptedMax : maxPages;
             setPageRange([currentPage, newMax]);
         }

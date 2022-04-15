@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const CardContainer = styled.div`
     min-height: 400px;
-    max-width: 500px;
+    width: 300px;
     border: 1px solid #42B4CA;
     padding: 10px;
     margin: 8px;
@@ -12,11 +12,13 @@ const CardContainer = styled.div`
 
 const Image = styled.img`
     height: 300px;
-    width: 275px;
+    width: 300px;
 `;
 
 const Info = styled.p`
-
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 `;
 
 const DetailsButton = styled.button`
