@@ -1,7 +1,7 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, ReactNode, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useGetCharacterQuery } from "../../api/rickMorty";
+import { useGetCharacterQuery, useGetEpisodeQuery } from "../../api/rickMorty";
 import Tabs from "../../components/Tabs";
 
 const CharacterContainer = styled.div`
@@ -33,12 +33,40 @@ const InfoText = styled.p`
 const CharacterPage = memo(() => {
     const params = useParams();
 
+    const [selectedTab, setSelectedTab] = useState<number>(0);
+    const [tabsContent, setTabsContent] = useState<ReactNode[]>([]);
+    const [renderHack, setRenderHack] = useState<boolean>(false);
+
     const {
-        data: characterData,
-        isSuccess: characterIsSuccess
+        data: characterData
     } = useGetCharacterQuery({ characterId: Number(params.characterId) });
 
-    const episodeTabs = useMemo(() => characterData?.episode?.slice(0, 5)?.map((episode) => `Episode ${episode.split("/")[5]}`), [characterData?.episode]);
+    const episodeNumbers: number[] = useMemo(() => characterData?.episode?.slice(0, 5)?.map((episode) => Number(episode.split("/")[5])), [characterData?.episode]);
+    const episodeTabTitles: string[] = useMemo(() => episodeNumbers?.map((number) => `Episode ${number}`), [characterData?.episode]);
+
+    const {
+        data: episodeData
+    } = useGetEpisodeQuery({ episodeId: episodeNumbers?.[selectedTab] }, {
+        skip: !episodeNumbers?.length
+    });
+
+    useEffect(() => {
+        if (episodeData) {
+            let newContent = tabsContent;
+            newContent[selectedTab] = (
+                <div>
+                    <InfoText>{episodeData.id}</InfoText>
+                    <InfoText>{episodeData.name}</InfoText>
+                    <InfoText>{episodeData.air_date}</InfoText>
+                    <InfoText>{episodeData.episode}</InfoText>
+                </div>
+            )
+            setTabsContent(newContent);
+            setRenderHack(!renderHack);
+        } else {
+            return undefined;
+        }
+    }, [episodeData])
 
     return (
         <CharacterContainer>
@@ -56,7 +84,12 @@ const CharacterPage = memo(() => {
                 </InfoContainer>
             </Grid>
             <h1>Episodes Info</h1>
-            <Tabs tabs={episodeTabs || []} tabsContent={[<p>Hello</p>]} />
+            <Tabs
+                selectedTab={selectedTab}
+                onTabChange={(newTab) => setSelectedTab(newTab)}
+                tabTitles={episodeTabTitles || []}
+                tabsContent={tabsContent}
+            />
         </CharacterContainer>
     );
 });

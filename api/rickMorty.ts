@@ -27,6 +27,16 @@ export interface Character {
     created: string;
 }
 
+interface Episode {
+    id: number;
+    name: string;
+    air_date: string;
+    episode: string;
+    characters: string[];
+    url: string;
+    created: string;
+}
+
 export const rickMortyApi = createApi({
     reducerPath: "rickMortyApi",
     baseQuery: fetchBaseQuery({ baseUrl: "https://rickandmortyapi.com/api/" }),
@@ -43,7 +53,17 @@ export const rickMortyApi = createApi({
                 method: "GET"
             })
         }),
+        getEpisode: builder.query<Episode, { episodeId: number }>({
+            query: ({ episodeId }) => ({
+                url: `episode/${episodeId}`,
+                method: "GET"
+            })
+        }),
     })
 });
 
-export const { useGetCharactersQuery, useGetCharacterQuery } = rickMortyApi;
+export const {
+    useGetCharactersQuery,
+    useGetCharacterQuery,
+    useGetEpisodeQuery
+} = rickMortyApi;

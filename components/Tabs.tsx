@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useState } from "react";
+import React, { memo, ReactNode, useCallback } from "react";
 import styled from "styled-components";
 
 const TabsContainer = styled.div`
@@ -33,19 +33,24 @@ const TabContent = styled.div`
 `;
 
 interface TabsProps {
-    tabs: string[];
-    tabsContent: ReactNode[];
+    selectedTab: number;
+    tabTitles: string[];
+    tabsContent: ReactNode;
+    onTabChange: (tabIndex: number) => void;
 }
 
-const Tabs = memo(({ tabs, tabsContent }: TabsProps) => {
-    const [selectedTab, setSelectedTab] = useState<number>(0);
+const Tabs = memo(({ selectedTab, tabTitles, tabsContent, onTabChange }: TabsProps) => {
+
+    const handleTabChange = useCallback((index: number) => {
+        onTabChange(index);
+    }, [selectedTab, onTabChange]);
 
     return (
         <TabsContainer>
             <TabsBar>
                 {
-                    tabs.map((tab, index) => (
-                        <Tab key={index} $isActive={index === selectedTab} onClick={() => setSelectedTab(index)}>
+                    tabTitles.map((tab, index) => (
+                        <Tab key={index} $isActive={index === selectedTab} onClick={() => handleTabChange(index)}>
                             {tab}
                         </Tab>
                     ))

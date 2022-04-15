@@ -51,8 +51,7 @@ const ListPage = memo(() => {
     const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([]);
 
     const {
-        data: charactersData,
-        isSuccess: charactersIsSuccess,
+        data: charactersData
     } = useGetCharactersQuery({ page });
 
     const handleSearch = useCallback((query: string) => {
