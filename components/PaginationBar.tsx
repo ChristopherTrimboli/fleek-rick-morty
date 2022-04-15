@@ -32,6 +32,10 @@ const BarTab = styled.div<{ $isActive?: boolean, $isDisabled?: boolean }>`
     :hover {
         background-color: #252525;
     }
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        font-size: 20px;
+    }
 `;
 
 const LeftArrow = styled(BarTab)`

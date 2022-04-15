@@ -13,6 +13,7 @@ const Grid = styled.div`
 
     @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
         flex-direction: column;
+        height: calc(100% - 81px); // minus nav and padding heights - mobile
     }
 `;
 

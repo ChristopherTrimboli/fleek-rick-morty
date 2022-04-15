@@ -8,6 +8,10 @@ const NavContainer = styled.div`
     display: flex;
     justify-content: center;
     padding: 10px 20px;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        height: 60px;
+    }
 `;
 
 const NavLogo = styled.img`

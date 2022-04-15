@@ -9,6 +9,11 @@ const CharacterContainer = styled.div`
     padding: 50px;
     overflow-x: auto;
     font-family: Roboto-Mono, Open Sans;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        height: calc(100% - 190px); // minus nav and padding heights - mobile
+        padding: 30px 20px;
+    }
 `;
 
 const Grid = styled.div`
