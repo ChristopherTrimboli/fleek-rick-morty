@@ -85,7 +85,7 @@ const ListPage = memo(() => {
             const newPage = charactersData?.results;
             const nextPage = charactersData?.info?.next;
             const newMaxPages = charactersData?.info?.pages;
-            const relativePage = nextPage ? Number(charactersData?.info?.next.split("/?page=")[1]) - 1 : newMaxPages;
+            const relativePage = nextPage ? Number(nextPage.split("/?page=")[1]) - 1 : newMaxPages;
             if (newPage && newMaxPages && relativePage) {
                 setCharacters(newPage);
                 setMaxPages(newMaxPages);
@@ -99,9 +99,9 @@ const ListPage = memo(() => {
     useEffect(() => {
         let newCharacters = characters || [];
         newCharacters = newCharacters.filter(character =>
-            searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true &&
-                statusFilter ? character.status === statusFilter : true &&
-                    genderFilter ? character.gender === genderFilter : true
+            (searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true) &&
+            (statusFilter ? character.status === statusFilter : true) &&
+            (genderFilter ? character.gender === genderFilter : true)
         );
         setFilteredCharacters(newCharacters);
     }, [characters, searchQuery, statusFilter, genderFilter, setFilteredCharacters])
