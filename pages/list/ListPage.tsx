@@ -83,8 +83,9 @@ const ListPage = memo(() => {
     useEffect(() => {
         const handleFetchSuccess = async () => {
             const newPage = charactersData?.results;
-            const relativePage = Number(charactersData?.info?.next.split("/?page=")[1]) - 1;
+            const nextPage = charactersData?.info?.next;
             const newMaxPages = charactersData?.info?.pages;
+            const relativePage = nextPage ? Number(charactersData?.info?.next.split("/?page=")[1]) - 1 : newMaxPages;
             if (newPage && newMaxPages && relativePage) {
                 setCharacters(newPage);
                 setMaxPages(newMaxPages);
