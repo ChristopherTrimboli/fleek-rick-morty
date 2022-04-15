@@ -69,8 +69,8 @@ const ListPage = memo(() => {
         setFilteredCharacters(newCharacters);
     }, [searchQuery, charactersData?.results, setFilteredCharacters, statusFilter, genderFilter])
 
-    const statusOptions = useMemo(() => [null, ...Array.from(new Set(filteredCharacters.map((char) => char.status)))], [filteredCharacters])
-    const genderOptions = useMemo(() => [null, ...Array.from(new Set(filteredCharacters.map((char) => char.gender)))], [filteredCharacters])
+    const statusOptions = useMemo(() => [null, ...Array.from(new Set(charactersData?.results?.map((char) => char.status)))], [charactersData?.results])
+    const genderOptions = useMemo(() => [null, ...Array.from(new Set(charactersData?.results?.map((char) => char.gender)))], [charactersData?.results])
 
     return (
         <Grid>
