@@ -6,7 +6,6 @@ const Input = styled.input`
     width: 100%;
     border: 2px solid #42B4CA;
     border-radius: 50px;
-    font-family: Roboto-Mono, Open Sans;
     font-size: 20px;
 `;
 

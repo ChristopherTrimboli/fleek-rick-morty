@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import localForage from "localforage";
 import { Character, useGetCharactersQuery } from "../../api/rickMorty";
@@ -6,11 +6,13 @@ import CharacterCard from "../../components/CharacterCard";
 import PaginationBar from "../../components/PaginationBar";
 import SearchInput from "../../components/SearchInput";
 import SelectInput from "../../components/SelectInput";
+import ScrollDial from "../../components/ScrollDial";
 
 const Grid = styled.div`
     height: calc(100% - 121px); // minus nav and padding heights
     display: flex;
     flex-direction: row;
+    font-family: Roboto-Mono, Open Sans;
 
     @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
         flex-direction: column;
@@ -25,7 +27,6 @@ const FiltersContainer = styled.div`
     resize: horizontal;
     border-right: 1px solid grey;
     overflow-x: auto;
-    font-family: Roboto-Mono, Open Sans;
     padding: 20px 15px;
 
     @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
@@ -49,7 +50,6 @@ const CharacterCards = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;
-    font-family: Roboto-Mono, Open Sans;
 `;
 
 const ListPage = memo(() => {
@@ -61,6 +61,8 @@ const ListPage = memo(() => {
     const [genderFilter, setGenderFilter] = useState<string>(null);
     const [isPageCached, setIsPageCached] = useState<boolean>(true);
     const [maxPages, setMaxPages] = useState<number>(10);
+
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const {
         data: charactersData,
@@ -125,7 +127,7 @@ const ListPage = memo(() => {
                 <SelectInput onSelect={option => setGenderFilter(option)} options={genderOptions} />
             </FiltersContainer>
             <ListContainer>
-                <CharacterCards>
+                <CharacterCards ref={scrollRef}>
                     {
                         filteredCharacters.map((character, index) =>
                             <CharacterCard
@@ -144,6 +146,7 @@ const ListPage = memo(() => {
                     maxPages={maxPages}
                     onPageChange={(newPage) => setPage(newPage)}
                 />
+                <ScrollDial scrollRef={scrollRef} />
             </ListContainer>
         </Grid>
     );

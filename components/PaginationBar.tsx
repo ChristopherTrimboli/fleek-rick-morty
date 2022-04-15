@@ -15,7 +15,6 @@ const BarTab = styled.div<{ $isActive?: boolean, $isDisabled?: boolean }>`
     justify-content: center;
     align-items: center;
     border: solid 1px #42B4CA;
-    font-family: Roboto-Mono, Open Sans;
     font-size: 25px;
     font-weight: 600;
     cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "pointer")};

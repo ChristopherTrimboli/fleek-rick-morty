@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const SearchInput = styled.select`
     width: 100%;
-    font-family: Roboto-Mono, Open Sans;
     padding: 10px;
     font-size: 20px;
 `;

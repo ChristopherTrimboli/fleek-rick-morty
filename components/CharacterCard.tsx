@@ -8,6 +8,15 @@ const CardContainer = styled.div`
     border: 1px solid #42B4CA;
     padding: 10px;
     margin: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: all 0.3s ease;
+
+    :hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        background-color: #1f1f1f;
+        border: 1px solid #31d8f9;
+    }
 `;
 
 const Image = styled.img`
@@ -25,7 +34,6 @@ const DetailsButton = styled.button`
     width: 100%;
     background-color: #BFDE42;
     padding: 10px 20px;
-    font-family: Roboto-Mono, Open Sans;
     cursor: pointer;
     border: none;
     font-weight: 600;
