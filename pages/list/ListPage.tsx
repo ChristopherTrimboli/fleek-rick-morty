@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
+import localForage from "localforage";
 import { Character, useGetCharactersQuery } from "../../api/rickMorty";
 import CharacterCard from "../../components/CharacterCard";
 import PaginationBar from "../../components/PaginationBar";
@@ -54,29 +55,62 @@ const CharacterCards = styled.div`
 const ListPage = memo(() => {
     const [page, setPage] = useState<number>(1);
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [characters, setCharacters] = useState<Character[]>([]);
     const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([]);
     const [statusFilter, setStatusFilter] = useState<string>(null);
     const [genderFilter, setGenderFilter] = useState<string>(null);
+    const [isPageCached, setIsPageCached] = useState<boolean>(true);
+    const [maxPages, setMaxPages] = useState<number>(10);
 
     const {
-        data: charactersData
-    } = useGetCharactersQuery({ page });
-
-    const handleSearch = useCallback((query: string) => {
-        setSearchQuery(query);
-    }, [setSearchQuery])
+        data: charactersData,
+        isSuccess: isCharactersSuccess,
+    } = useGetCharactersQuery({ page }, {
+        skip: !!isPageCached
+    });
 
     useEffect(() => {
-        let newCharacters = charactersData?.results || [];
-        if (newCharacters) {
-            newCharacters = newCharacters.filter(character =>
+        const getCachedCharacters = async () => {
+            const cachedMaxPages: number = await localForage.getItem("characters-max-pages");
+            const cachedPage: Character[] = await localForage.getItem(`characters-page-${page}`);
+            setCharacters(cachedPage || []);
+            setIsPageCached(!!cachedPage);
+            setMaxPages(cachedMaxPages || 10);
+        };
+        getCachedCharacters();
+    }, [page, setCharacters, setIsPageCached, setMaxPages]);
+
+    useEffect(() => {
+        const handleFetchSuccess = async () => {
+            const newPage = charactersData?.results;
+            const relativePage = Number(charactersData?.info?.next.split("/?page=")[1]) - 1;
+            const newMaxPages = charactersData?.info?.pages;
+            if (newPage && newMaxPages && relativePage) {
+                setCharacters(newPage);
+                setMaxPages(newMaxPages);
+                await localForage.setItem(`characters-page-${relativePage}`, newPage);
+                await localForage.setItem("characters-max-pages", newMaxPages);
+            }
+        };
+        isCharactersSuccess && handleFetchSuccess();
+    }, [charactersData?.results, charactersData?.info?.pages, isCharactersSuccess]);
+
+    useEffect(() => {
+        const handleFilters = async () => {
+            let newCharacters = characters || [];
+            newCharacters.filter(character =>
                 searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true &&
                     statusFilter ? character.status === statusFilter : true &&
                         genderFilter ? character.gender === genderFilter : true
             );
-        }
-        setFilteredCharacters(newCharacters);
-    }, [searchQuery, charactersData?.results, setFilteredCharacters, statusFilter, genderFilter])
+            setFilteredCharacters(newCharacters);
+        };
+        handleFilters();
+    }, [characters, page, searchQuery, statusFilter, genderFilter, setFilteredCharacters])
+
+    const handleSearch = useCallback((query: string) => {
+        setSearchQuery(query);
+    }, [setSearchQuery])
 
     const statusOptions = useMemo(() => [null, ...Array.from(new Set(charactersData?.results?.map((char) => char.status)))], [charactersData?.results])
     const genderOptions = useMemo(() => [null, ...Array.from(new Set(charactersData?.results?.map((char) => char.gender)))], [charactersData?.results])
@@ -109,7 +143,7 @@ const ListPage = memo(() => {
                 </CharacterCards>
                 <PaginationBar
                     currentPage={page}
-                    maxPages={charactersData?.info?.pages || 10}
+                    maxPages={maxPages}
                     onPageChange={(newPage) => setPage(newPage)}
                 />
             </ListContainer>

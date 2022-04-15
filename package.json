@@ -18,6 +18,7 @@
     "homepage": "https://github.com/ChristopherTrimboli/fleek-rick-morty",
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.1",
+        "localforage": "^1.10.0",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
         "react-redux": "^7.2.8",
