@@ -96,17 +96,14 @@ const ListPage = memo(() => {
     }, [charactersData?.results, charactersData?.info?.pages, isCharactersSuccess]);
 
     useEffect(() => {
-        const handleFilters = async () => {
-            let newCharacters = characters || [];
-            newCharacters.filter(character =>
-                searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true &&
-                    statusFilter ? character.status === statusFilter : true &&
-                        genderFilter ? character.gender === genderFilter : true
-            );
-            setFilteredCharacters(newCharacters);
-        };
-        handleFilters();
-    }, [characters, page, searchQuery, statusFilter, genderFilter, setFilteredCharacters])
+        let newCharacters = characters || [];
+        newCharacters.filter(character =>
+            searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true &&
+                statusFilter ? character.status === statusFilter : true &&
+                    genderFilter ? character.gender === genderFilter : true
+        );
+        setFilteredCharacters(newCharacters);
+    }, [characters, searchQuery, statusFilter, genderFilter, setFilteredCharacters])
 
     const handleSearch = useCallback((query: string) => {
         setSearchQuery(query);
