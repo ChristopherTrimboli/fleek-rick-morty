@@ -10,6 +10,10 @@ const Grid = styled.div`
     height: calc(100% - 121px); // minus nav and padding heights
     display: flex;
     flex-direction: row;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        flex-direction: column;
+    }
 `;
 
 const FiltersContainer = styled.div`
@@ -21,6 +25,10 @@ const FiltersContainer = styled.div`
     overflow-x: auto;
     font-family: Roboto-Mono, Open Sans;
     padding: 20px 15px;
+
+    @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
+        display: none;
+    }
 `;
 
 const ListContainer = styled.div`
