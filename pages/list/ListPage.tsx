@@ -97,7 +97,7 @@ const ListPage = memo(() => {
 
     useEffect(() => {
         let newCharacters = characters || [];
-        newCharacters.filter(character =>
+        newCharacters = newCharacters.filter(character =>
             searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true &&
                 statusFilter ? character.status === statusFilter : true &&
                     genderFilter ? character.gender === genderFilter : true
@@ -109,8 +109,8 @@ const ListPage = memo(() => {
         setSearchQuery(query);
     }, [setSearchQuery])
 
-    const statusOptions = useMemo(() => [null, ...Array.from(new Set(charactersData?.results?.map((char) => char.status)))], [charactersData?.results])
-    const genderOptions = useMemo(() => [null, ...Array.from(new Set(charactersData?.results?.map((char) => char.gender)))], [charactersData?.results])
+    const statusOptions = useMemo(() => [null, ...Array.from(new Set(characters.map((char) => char.status)))], [characters])
+    const genderOptions = useMemo(() => [null, ...Array.from(new Set(characters.map((char) => char.gender)))], [characters])
 
     return (
         <Grid>
