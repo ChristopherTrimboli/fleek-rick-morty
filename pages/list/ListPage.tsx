@@ -1,9 +1,10 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Character, useGetCharactersQuery } from "../../api/rickMorty";
 import CharacterCard from "../../components/CharacterCard";
 import PaginationBar from "../../components/PaginationBar";
 import SearchInput from "../../components/SearchInput";
+import SelectInput from "../../components/SelectInput";
 
 const Grid = styled.div`
     height: calc(100% - 121px); // minus nav and padding heights
@@ -18,10 +19,6 @@ const FiltersContainer = styled.div`
     resize: horizontal;
     border-right: 1px solid grey;
     overflow-x: auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
     font-family: Roboto-Mono, Open Sans;
     padding: 20px 15px;
 `;
@@ -49,6 +46,8 @@ const ListPage = memo(() => {
     const [page, setPage] = useState<number>(1);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([]);
+    const [statusFilter, setStatusFilter] = useState<string>(null);
+    const [genderFilter, setGenderFilter] = useState<string>(null);
 
     const {
         data: charactersData
@@ -60,16 +59,29 @@ const ListPage = memo(() => {
 
     useEffect(() => {
         let newCharacters = charactersData?.results || [];
-        if (searchQuery && newCharacters) {
-            newCharacters = newCharacters.filter(character => character.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        if (newCharacters) {
+            newCharacters = newCharacters.filter(character =>
+                searchQuery ? character.name.toLowerCase().includes(searchQuery.toLowerCase()) : true &&
+                    statusFilter ? character.status === statusFilter : true &&
+                        genderFilter ? character.gender === genderFilter : true
+            );
         }
         setFilteredCharacters(newCharacters);
-    }, [searchQuery, charactersData?.results, setFilteredCharacters])
+    }, [searchQuery, charactersData?.results, setFilteredCharacters, statusFilter, genderFilter])
+
+    const statusOptions = useMemo(() => [null, ...Array.from(new Set(filteredCharacters.map((char) => char.status)))], [filteredCharacters])
+    const genderOptions = useMemo(() => [null, ...Array.from(new Set(filteredCharacters.map((char) => char.gender)))], [filteredCharacters])
 
     return (
         <Grid>
             <FiltersContainer>
                 <SearchInput onSearch={handleSearch} />
+                <br />
+                <h4>Status</h4>
+                <SelectInput onSelect={option => setStatusFilter(option)} options={statusOptions} />
+                <br />
+                <h4>Gender</h4>
+                <SelectInput onSelect={option => setGenderFilter(option)} options={genderOptions} />
             </FiltersContainer>
             <ListContainer>
                 <CharacterCards>
