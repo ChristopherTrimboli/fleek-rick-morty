@@ -34,6 +34,8 @@ const BarTab = styled.div<{ $isActive?: boolean, $isDisabled?: boolean }>`
 
     @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
         font-size: 20px;
+        width: 40px;
+        height: 40px;
     }
 `;
 

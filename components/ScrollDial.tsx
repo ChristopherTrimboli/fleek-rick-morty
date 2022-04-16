@@ -26,7 +26,7 @@ const DialCircle = styled.div`
     @media (max-width: ${props => props.theme.breakpoints.tablet}px) {
         width: 40px;
         height: 40px;
-        bottom: 70px;
+        bottom: 65px;
         right: 20px;
     }
 `;

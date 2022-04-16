@@ -71,32 +71,34 @@ const ListPage = memo(() => {
         skip: !!isPageCached
     });
 
-    useEffect(() => {
-        const getCachedCharacters = async () => {
-            const cachedMaxPages: number = await localForage.getItem("characters-max-pages");
-            const cachedPage: Character[] = await localForage.getItem(`characters-page-${page}`);
-            setCharacters(cachedPage || []);
-            setIsPageCached(!!cachedPage);
-            setMaxPages(cachedMaxPages || 10);
-        };
-        getCachedCharacters();
+    const getCachedCharacters = useCallback(async () => {
+        const cachedMaxPages: number = await localForage.getItem("characters-max-pages");
+        const cachedPage: Character[] = await localForage.getItem(`characters-page-${page}`);
+        setCharacters(cachedPage || []);
+        setIsPageCached(!!cachedPage);
+        setMaxPages(cachedMaxPages || 10);
     }, [page, setCharacters, setIsPageCached, setMaxPages]);
 
-    useEffect(() => {
-        const handleFetchSuccess = async () => {
-            const newPage = charactersData?.results;
-            const nextPage = charactersData?.info?.next;
-            const newMaxPages = charactersData?.info?.pages;
-            const relativePage = nextPage ? Number(nextPage.split("/?page=")[1]) - 1 : newMaxPages;
-            if (newPage && newMaxPages && relativePage) {
-                setCharacters(newPage);
-                setMaxPages(newMaxPages);
-                await localForage.setItem(`characters-page-${relativePage}`, newPage);
-                await localForage.setItem("characters-max-pages", newMaxPages);
-            }
-        };
-        isCharactersSuccess && handleFetchSuccess();
+    const handleFetchSuccess = useCallback(async () => {
+        const newPage = charactersData?.results;
+        const nextPage = charactersData?.info?.next;
+        const newMaxPages = charactersData?.info?.pages;
+        const relativePage = nextPage ? Number(nextPage.split("/?page=")[1]) - 1 : newMaxPages;
+        if (newPage && newMaxPages && relativePage) {
+            setCharacters(newPage);
+            setMaxPages(newMaxPages);
+            await localForage.setItem(`characters-page-${relativePage}`, newPage);
+            await localForage.setItem("characters-max-pages", newMaxPages);
+        }
     }, [charactersData?.results, charactersData?.info?.pages, isCharactersSuccess]);
+
+    useEffect(() => {
+        getCachedCharacters();
+    }, [page, getCachedCharacters]);
+
+    useEffect(() => {
+        isCharactersSuccess && handleFetchSuccess();
+    }, [isCharactersSuccess, handleFetchSuccess]);
 
     useEffect(() => {
         let newCharacters = characters || [];
